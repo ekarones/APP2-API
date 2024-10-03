@@ -29,17 +29,19 @@ def create_disease(name: str, description: str):
     conn.close()
     return {"message": "Disease created successfully"}
 
+
 @app.put("/diseases/{disease_id}")
 def update_disease(disease_id: int, name: str, description: str):
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute(
         "UPDATE diseases SET name = ?, description = ? WHERE id = ?",
-        (name, description, disease_id)
+        (name, description, disease_id),
     )
     conn.commit()
     conn.close()
     return {"message": "Disease updated successfully"}
+
 
 # Eliminar una enfermedad por su ID
 @app.delete("/diseases/{disease_id}")
@@ -58,7 +60,10 @@ async def upload_image(file: UploadFile = File(...)):
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
+    result, description = predict_img(file_location)
+
     return {
         "info": f"File '{file.filename}' saved at '{file_location}'",
-        "result": predict_img(file_location),
+        "result": result,
+        "description": description,
     }

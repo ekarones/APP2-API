@@ -10,7 +10,7 @@ CREATE TABLE "diseases" (
 
 CREATE TABLE "advices" (
 	"id"	INTEGER NOT NULL,
-	"id_disease"	INTEGER NOT NULL,
-	"content"	TEXT NOT NULL,
+	"name_disease"	TEXT NOT NULL,
+	"description"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
